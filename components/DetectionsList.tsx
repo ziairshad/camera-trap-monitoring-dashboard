@@ -60,11 +60,9 @@ export function DetectionsList({
     <Card
       className={`bg-black/20 backdrop-blur-md border-white/10 text-white ${
         selectedDetection ? "h-[calc(50vh-100px)]" : "h-[calc(100vh-200px)]"
-      } flex flex-col detections-list-animate`}
-      style={{
-        opacity: showContent ? 1 : 0,
-        transform: showContent ? "translateY(0)" : "translateY(20px)",
-      }}
+      } flex flex-col transition-all duration-600 ease-out ${
+        showContent ? "animate-widget-slide-in" : "opacity-0 translate-y-5"
+      }`}
     >
       <CardHeader className="pb-2 flex-shrink-0">
         <CardTitle className="flex items-center gap-2 text-base">
@@ -81,7 +79,7 @@ export function DetectionsList({
             detections.map((detection, index) => (
               <div
                 key={detection.id}
-                className={`p-2 rounded-lg transition-colors cursor-pointer detection-item-animate ${
+                className={`p-2 rounded-lg transition-colors cursor-pointer animate-widget-item-fade-in ${
                   selectedDetection?.id === detection.id
                     ? "bg-emerald-400/20 border border-emerald-400/30"
                     : "bg-white/5 hover:bg-white/10"
@@ -122,39 +120,6 @@ export function DetectionsList({
               </div>
             ))}
       </CardContent>
-
-      <style jsx>{`
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes fadeInUpItem {
-          from {
-            opacity: 0;
-            transform: translateY(15px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        .detections-list-animate {
-          transition: all 0.6s ease-out;
-        }
-
-        .detection-item-animate {
-          opacity: 0;
-          animation: fadeInUpItem 0.5s ease-out forwards;
-        }
-      `}</style>
     </Card>
   )
 }

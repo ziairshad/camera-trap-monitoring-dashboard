@@ -111,3 +111,35 @@
 .animate-fade-in-up {
   animation: fadeInUp 0.6s ease-out;
 }
+
+/* Widget animations */
+@keyframes widgetSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes widgetItemFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-widget-slide-in {
+  animation: widgetSlideIn 0.6s ease-out forwards;
+}
+
+.animate-widget-item-fade-in {
+  opacity: 0;
+  animation: widgetItemFadeIn 0.5s ease-out forwards;
+}

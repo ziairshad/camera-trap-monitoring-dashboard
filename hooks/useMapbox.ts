@@ -161,6 +161,13 @@ export const useMapbox = (cameras: Camera[], selectedCamera?: number | null, map
     markerElement.className = "camera-marker"
     markerElement.setAttribute("data-camera-id", camera.id.toString())
 
+    // Add click handler to select camera
+    markerElement.addEventListener("click", (e) => {
+      e.stopPropagation()
+      // Dispatch custom event that the dashboard can listen to
+      window.dispatchEvent(new CustomEvent("cameraMarkerClick", { detail: { cameraId: camera.id } }))
+    })
+
     const innerDot = document.createElement("div")
     innerDot.className = "camera-marker-dot"
 
@@ -228,22 +235,33 @@ export const useMapbox = (cameras: Camera[], selectedCamera?: number | null, map
       closeOnClick: false,
       className: "camera-popup",
     }).setHTML(`
-      <div style="
-        background: rgba(17, 24, 39, 0.95);
-        color: white;
-        padding: 8px;
-        border-radius: 6px;
-        border: 1px solid rgba(75, 85, 99, 0.5);
-        backdrop-filter: blur(10px);
-        min-width: 120px;
-        font-size: 12px;
-      ">
-        <div style="font-weight: bold; color: #10b981; margin-bottom: 3px;">${camera.name}</div>
-        <div style="color: #d1d5db; margin-bottom: 2px;">Status: ${camera.status}</div>
-        <div style="color: #d1d5db; margin-bottom: 2px;">Battery: ${camera.battery}%</div>
-        <div style="color: #d1d5db;">Last: ${camera.lastDetection}</div>
+    <div style="
+      background: rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      color: white;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      min-width: 140px;
+      font-size: 12px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    ">
+      <div style="font-weight: bold; color: #10b981; margin-bottom: 6px; font-size: 13px;">${camera.name}</div>
+      <div style="color: #d1d5db; margin-bottom: 4px; display: flex; justify-content: space-between;">
+        <span>Status:</span> 
+        <span style="color: ${camera.status === "active" ? "#10b981" : "#ef4444"};">${camera.status}</span>
       </div>
-    `)
+      <div style="color: #d1d5db; margin-bottom: 4px; display: flex; justify-content: space-between;">
+        <span>Battery:</span> 
+        <span style="color: #10b981;">${camera.battery}%</span>
+      </div>
+      <div style="color: #d1d5db; display: flex; justify-content: space-between;">
+        <span>Last:</span> 
+        <span style="color: #10b981;">${camera.lastDetection}</span>
+      </div>
+    </div>
+  `)
   }
 
   const flyToCamera = (camera: Camera) => {

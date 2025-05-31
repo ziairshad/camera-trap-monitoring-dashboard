@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { X, Download, Info } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -639,6 +639,20 @@ export default function CameraTrapDashboard() {
     setSelectedCamera(newSelectedCamera) // This will be null if deselected
   }
 
+  // Add event listener for marker clicks
+  useEffect(() => {
+    const handleMarkerClick = (event: CustomEvent) => {
+      const cameraId = event.detail.cameraId
+      handleCameraSelectWithMap(cameraId)
+    }
+
+    window.addEventListener("cameraMarkerClick", handleMarkerClick as EventListener)
+
+    return () => {
+      window.removeEventListener("cameraMarkerClick", handleMarkerClick as EventListener)
+    }
+  }, []) // Removed handleCameraSelectWithMap from dependencies
+
   // Handle map theme change
   const handleMapThemeChange = (theme: MapTheme) => {
     setCurrentMapTheme(theme)
@@ -667,9 +681,9 @@ export default function CameraTrapDashboard() {
           <StatCards stats={statCards} />
 
           {/* Main Content Area */}
-          <div className="pointer-events-auto px-3 mt-2 flex h-[calc(100vh-120px)]">
+          <div className="px-3 mt-2 flex h-[calc(100vh-120px)] pointer-events-none">
             {/* Left Sidebar - Camera List */}
-            <div className="w-72 mr-3 space-y-3">
+            <div className="w-72 mr-3 space-y-3 pointer-events-auto">
               <CameraList
                 cameras={filteredCameras}
                 selectedCamera={selectedCamera}
@@ -720,11 +734,11 @@ export default function CameraTrapDashboard() {
               )}
             </div>
 
-            {/* Center Map Area - Spacer */}
-            <div className="flex-1"></div>
+            {/* Center Map Area - Spacer - Allow pointer events to pass through */}
+            <div className="flex-1 pointer-events-none"></div>
 
             {/* Right Sidebar - Detections List */}
-            <div className="w-80 ml-3 space-y-3">
+            <div className="w-80 ml-3 space-y-3 pointer-events-auto">
               <DetectionsList
                 detections={filteredDetections}
                 selectedDetection={selectedDetection}
@@ -776,10 +790,12 @@ export default function CameraTrapDashboard() {
             padding: 0 !important;
             background: transparent !important;
             box-shadow: none !important;
+            border-radius: 12px !important;
           }
           
           .camera-popup .mapboxgl-popup-tip {
-            border-top-color: rgba(17, 24, 39, 0.95) !important;
+            border-top-color: rgba(0, 0, 0, 0.2) !important;
+            filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.3));
           }
           
           .mapboxgl-marker {

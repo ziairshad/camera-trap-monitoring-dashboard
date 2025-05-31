@@ -35,11 +35,10 @@ export function StatCards({ stats }: StatCardsProps) {
           return (
             <Card
               key={index}
-              className="bg-black/20 backdrop-blur-md border-white/10 text-white stat-card-animate"
+              className="bg-black/20 backdrop-blur-md border-white/10 text-white animate-fade-in-up"
               style={{
                 animationDelay: `${index * 150}ms`,
-                opacity: 0,
-                transform: "translateY(20px)",
+                animationFillMode: "both",
               }}
             >
               <CardContent className="p-3">
@@ -60,23 +59,6 @@ export function StatCards({ stats }: StatCardsProps) {
           )
         })}
       </div>
-
-      <style jsx>{`
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        .stat-card-animate {
-          animation: fadeInUp 0.6s ease-out forwards;
-        }
-      `}</style>
     </div>
   )
 }

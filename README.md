@@ -56,7 +56,7 @@ A modern, AI-powered wildlife monitoring dashboard built for the Environment Age
 
 ## 🚀 Getting Started
 
-```shellscript
+\`\`\`shellscript
 # Clone the repository
 git clone https://github.com/yourusername/wildlife-camera-trap-dashboard.git
 
@@ -69,13 +69,17 @@ cp .env.example .env.local
 
 # Run the development server
 npm run dev
-```
+\`\`\`
 
 ## 🌍 Environment Variables
 
-```plaintext
+Create a `.env.local` file in the root directory and add your Mapbox token:
+
+\`\`\`plaintext
 NEXT_PUBLIC_MAPBOX_TOKEN=your_mapbox_token_here
-```
+\`\`\`
+
+You can get a free Mapbox token by signing up at [mapbox.com](https://www.mapbox.com/).
 
 ## 🎯 Use Cases
 

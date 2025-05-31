@@ -1,30 +1,115 @@
-# Dark Camera Trap Dashboard
+# 🦌 Wildlife Camera Trap Dashboard
 
-*Automatically synced with your [v0.dev](https://v0.dev) deployments*
+A modern, AI-powered wildlife monitoring dashboard built for the Environment Agency Abu Dhabi. This sophisticated web application provides real-time visualization and analysis of camera trap data across Abu Dhabi's protected areas.
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/mrziairshad91-gmailcoms-projects/v0-dark-camera-trap-dashboard)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.dev-black?style=for-the-badge)](https://v0.dev/chat/projects/AUbMf3iK4yt)
+## ✨ Features
 
-## Overview
+### 🗺️ **Interactive Map Interface**
 
-This repository will stay in sync with your deployed chats on [v0.dev](https://v0.dev).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.dev](https://v0.dev).
+- Real-time camera locations with live status indicators
+- Multiple map themes (Dark, Space42 Blue)
+- Smooth camera selection and navigation
+- Animated markers with pulse effects for active cameras
 
-## Deployment
 
-Your project is live at:
+### 📊 **Advanced Analytics**
 
-**[https://vercel.com/mrziairshad91-gmailcoms-projects/v0-dark-camera-trap-dashboard](https://vercel.com/mrziairshad91-gmailcoms-projects/v0-dark-camera-trap-dashboard)**
+- **Species Detection Charts** - Track wildlife activity over time
+- **AI Model Performance** - Monitor detection accuracy across different models
+- **Species Distribution** - Visualize wildlife population data
+- **Timeline Analysis** - Interactive date range selection with smooth animations
 
-## Build your app
 
-Continue building your app on:
+### 🤖 **AI-Powered Detection**
 
-**[https://v0.dev/chat/projects/AUbMf3iK4yt](https://v0.dev/chat/projects/AUbMf3iK4yt)**
+- Support for multiple AI models (YOLOv8, EfficientDet, Detectron2, UAE-Custom)
+- Real-time confidence scoring
+- Bounding box visualization
+- Model performance tracking
 
-## How It Works
 
-1. Create and modify your project using [v0.dev](https://v0.dev)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+### 📱 **Modern UI/UX**
+
+- **Glassmorphism Design** - Beautiful backdrop blur effects
+- **Responsive Layout** - Works seamlessly on all devices
+- **Dark Theme** - Easy on the eyes for extended monitoring
+- **Smooth Animations** - Polished interactions throughout
+
+
+### 🔍 **Detection Management**
+
+- Detailed detection viewer with image annotations
+- Downloadable detection images
+- Camera-specific filtering
+- Real-time detection feed
+
+
+## 🛠️ Tech Stack
+
+- **Frontend**: Next.js 15, React, TypeScript
+- **Styling**: Tailwind CSS, shadcn/ui components
+- **Maps**: Mapbox GL JS
+- **Charts**: Custom SVG-based visualizations
+- **Icons**: Lucide React
+- **Deployment**: Vercel
+
+
+## 🚀 Getting Started
+
+```shellscript
+# Clone the repository
+git clone https://github.com/yourusername/wildlife-camera-trap-dashboard.git
+
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.example .env.local
+# Add your Mapbox token to .env.local
+
+# Run the development server
+npm run dev
+```
+
+## 🌍 Environment Variables
+
+```plaintext
+NEXT_PUBLIC_MAPBOX_TOKEN=your_mapbox_token_here
+```
+
+## 🎯 Use Cases
+
+- **Wildlife Conservation** - Monitor endangered species populations
+- **Research** - Analyze animal behavior patterns and migration routes
+- **Park Management** - Track camera health and optimize placement
+- **Environmental Protection** - Detect illegal activities in protected areas
+
+
+## 🔮 Future Enhancements
+
+- Real-time WebSocket integration
+- Machine learning model training interface
+- Advanced filtering and search capabilities
+- Export functionality for research data
+- Mobile app companion
+- Multi-language support
+
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Environment Agency Abu Dhabi for the project inspiration
+- Mapbox for the beautiful mapping platform
+- The open-source community for the amazing tools and libraries
+
+
+---
+
+**Built with ❤️ for wildlife conservation**

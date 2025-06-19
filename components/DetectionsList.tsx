@@ -42,15 +42,15 @@ export function DetectionsList({
   selectedCamera,
   onDetectionSelect,
 }: DetectionsListProps) {
+  // Start with true for loading to match server state
   const [isLoading, setIsLoading] = useState(true)
-  const [showContent, setShowContent] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
+    setIsMounted(true)
     // Simulate loading for 2 seconds
     const loadingTimer = setTimeout(() => {
       setIsLoading(false)
-      // Small delay before showing content for smooth transition
-      setTimeout(() => setShowContent(true), 100)
     }, 2000)
 
     return () => clearTimeout(loadingTimer)
@@ -61,7 +61,7 @@ export function DetectionsList({
       className={`bg-black/20 backdrop-blur-md border-white/10 text-white ${
         selectedDetection ? "h-[calc(50vh-100px)]" : "h-[calc(100vh-200px)]"
       } flex flex-col transition-all duration-600 ease-out ${
-        showContent ? "animate-widget-slide-in" : "opacity-0 translate-y-5"
+        isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
       }`}
     >
       <CardHeader className="pb-2 flex-shrink-0">

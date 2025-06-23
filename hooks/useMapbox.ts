@@ -16,6 +16,10 @@ interface UseMapboxProps {
     targets: boolean
     layers: boolean
   }
+  reportSubfilters?: {
+    system: boolean
+    legacy: boolean
+  }
   selectedCamera?: Camera | null
   onFeatureClick?: (feature: any) => void
   timeRange?: {
@@ -36,6 +40,10 @@ export const useMapbox = ({
     targets: true,
     layers: true
   },
+  reportSubfilters = {
+    system: true,
+    legacy: true
+  },
   selectedCamera = null,
   onFeatureClick,
   timeRange
@@ -44,58 +52,28 @@ export const useMapbox = ({
   const map = useRef<mapboxgl.Map | null>(null)
   const mapboxglRef = useRef<any>(null)
   const markersRef = useRef<any[]>([])
+  const navigationControlRef = useRef<any>(null)
   const [mapLoaded, setMapLoaded] = useState(false)
   const [mapError, setMapError] = useState<string | null>(null)
   const [currentTheme, setCurrentTheme] = useState(MAP_THEMES[initialThemeIndex])
-  const [isRotating, setIsRotating] = useState(true)
+  const [isRotating, setIsRotating] = useState(false)
   const userInteracting = useRef(false)
-  const spinEnabled = useRef(true)
+  const spinEnabled = useRef(false)
   const [selectedFeature, setSelectedFeature] = useState<any>(null)
   const [originalGeoJsonData, setOriginalGeoJsonData] = useState<any>(null)
   const [highlightedFeatures, setHighlightedFeatures] = useState<Set<string>>(new Set())
 
-  // Rotation settings
-  const secondsPerRevolution = 120
-  const maxSpinZoom = 5
-  const slowSpinZoom = 3
-
+  // Rotation disabled - keeping minimal implementation for compatibility
   const spinGlobe = useCallback(() => {
-    if (!map.current || !isGlobeView) return
+    // Globe rotation disabled
+    return
+  }, [])
 
-    const zoom = map.current.getZoom()
-    if (spinEnabled.current && !userInteracting.current && zoom < maxSpinZoom) {
-      let distancePerSecond = 360 / secondsPerRevolution
-      if (zoom > slowSpinZoom) {
-        // Slow spinning at higher zooms
-        const zoomDif = (maxSpinZoom - zoom) / (maxSpinZoom - slowSpinZoom)
-        distancePerSecond *= zoomDif
-      }
-      const center = map.current.getCenter()
-      center.lng -= distancePerSecond
-      // Smoothly animate the map over one second.
-      // When this animation is complete, it calls a 'moveend' event.
-      map.current.easeTo({ center, duration: 1000, easing: (n) => n })
-    }
-  }, [isGlobeView])
-
-  // Toggle rotation function
+  // Toggle rotation function - disabled
   const toggleRotation = useCallback(() => {
-    setIsRotating(prev => {
-      const newRotating = !prev
-      spinEnabled.current = newRotating
-      if (newRotating) {
-        spinGlobe()
-      } else {
-        map.current?.stop() // Immediately end ongoing animation
-      }
-      return newRotating
-    })
-  }, [spinGlobe])
-
-  // Update spinEnabled ref when isRotating changes
-  useEffect(() => {
-    spinEnabled.current = isRotating
-  }, [isRotating])
+    // Globe rotation disabled
+    return
+  }, [])
 
   const initializeMap = async () => {
     if (map.current || !mapContainer.current) return
@@ -142,7 +120,7 @@ export const useMapbox = ({
             'high-color': 'rgb(41, 128, 255)',
             'horizon-blend': 0.01,
             'space-color': 'rgb(1, 12, 32)',
-            'star-intensity': 0.3,
+            'star-intensity': 0,
             'range': [0.5, 2]
           })
 
@@ -162,15 +140,62 @@ export const useMapbox = ({
               filteredData = {
                 ...data,
                 features: data.features.filter((feature: any) => {
+                  const featureType = feature.properties?.type
                   const timestamp = feature.properties?.timestamp
-                  if (!timestamp) return true // Include features without timestamp
                   
+                  // Always include Target features (they don't have timestamps by design)
+                  if (featureType === 'Target') {
+                    return true
+                  }
+                  
+                  // Include features without timestamp (fallback for other feature types)
+                  if (!timestamp) return true
+                  
+                  // Filter other features by timestamp
                   const featureDate = new Date(timestamp)
                   return featureDate >= timeRange.start && featureDate <= timeRange.end
                 })
               }
+              
+              const targetCount = filteredData.features.filter((f: any) => f.properties?.type === 'Target').length
+              const totalOriginalTargets = data.features.filter((f: any) => f.properties?.type === 'Target').length
+              
               console.log(`Filtered from ${data.features.length} to ${filteredData.features.length} features`)
+              console.log(`Target features: ${targetCount}/${totalOriginalTargets} (always included - no timestamps)`)
             }
+
+            // Apply report subfilters
+            filteredData = {
+              ...filteredData,
+              features: filteredData.features.filter((feature: any) => {
+                const featureType = feature.properties?.type
+                const source = feature.properties?.source
+                
+                // For Report features, apply subfilter logic
+                if (featureType === 'Report') {
+                  console.log('Processing Report feature:', { id: feature.properties?.id, source, reportSubfilters })
+                  if (source === 'System' && !reportSubfilters.system) {
+                    console.log('Filtering out System report:', feature.properties?.id)
+                    return false
+                  }
+                  if (source === 'Legacy' && !reportSubfilters.legacy) {
+                    console.log('Filtering out Legacy report:', feature.properties?.id)
+                    return false
+                  }
+                  console.log('Including Report feature:', feature.properties?.id)
+                }
+                
+                // Include all non-Report features
+                return true
+              })
+            }
+
+            console.log('Report subfilters applied:', {
+              system: reportSubfilters.system,
+              legacy: reportSubfilters.legacy,
+              totalFeatures: filteredData.features.length,
+              reportFeatures: filteredData.features.filter((f: any) => f.properties?.type === 'Report').length
+            })
 
             console.log('Adding GeoJSON source...')
             map.current?.addSource('rfi-data', {
@@ -502,42 +527,7 @@ export const useMapbox = ({
               });
             }, 1000);
 
-            // Setup globe rotation event listeners
-            if (isGlobeView) {
-              // Pause spinning on interaction
-              map.current.on('mousedown', () => {
-                userInteracting.current = true
-              })
-
-              // Restart spinning when interaction is complete
-              map.current.on('mouseup', () => {
-                userInteracting.current = false
-                spinGlobe()
-              })
-
-              // These events account for cases where the mouse has moved
-              // off the map, so 'mouseup' will not be fired.
-              map.current.on('dragend', () => {
-                userInteracting.current = false
-                spinGlobe()
-              })
-              map.current.on('pitchend', () => {
-                userInteracting.current = false
-                spinGlobe()
-              })
-              map.current.on('rotateend', () => {
-                userInteracting.current = false
-                spinGlobe()
-              })
-
-              // When animation is complete, start spinning if there is no ongoing interaction
-              map.current.on('moveend', () => {
-                spinGlobe()
-              })
-
-              // Start initial rotation
-              spinGlobe()
-            }
+            // Globe rotation disabled - removed event listeners
           } catch (error) {
             console.error('Error loading GeoJSON:', error)
           }
@@ -569,7 +559,19 @@ export const useMapbox = ({
           })
         }
 
-        console.log('Map fully loaded')
+        // Add navigation controls (zoom in/out and compass)
+        console.log('Adding navigation controls...')
+        if (!navigationControlRef.current) {
+          navigationControlRef.current = new mapboxglRef.current.NavigationControl({
+            showCompass: true,
+            showZoom: true,
+            visualizePitch: true
+          })
+          
+          map.current?.addControl(navigationControlRef.current, 'bottom-right')
+        }
+        
+        console.log('Map fully loaded with navigation controls')
       })
     } catch (error) {
       console.error("Failed to initialize Mapbox:", error)
@@ -582,10 +584,26 @@ export const useMapbox = ({
   const changeMapStyle = (newTheme: MapTheme) => {
     if (map.current && mapLoaded) {
       try {
+        // Remove existing navigation control before style change
+        if (navigationControlRef.current && map.current) {
+          map.current.removeControl(navigationControlRef.current)
+          navigationControlRef.current = null
+        }
+        
         map.current.setStyle(newTheme.style)
 
-        // Re-add markers after style change
+        // Re-add markers and navigation controls after style change
         map.current.once("style.load", () => {
+          // Re-add navigation controls
+          if (!navigationControlRef.current) {
+            navigationControlRef.current = new mapboxglRef.current.NavigationControl({
+              showCompass: true,
+              showZoom: true,
+              visualizePitch: true
+            })
+                         map.current?.addControl(navigationControlRef.current, 'bottom-right')
+          }
+          
           addCameraMarkers(selectedCamera)
         })
       } catch (error) {
@@ -781,6 +799,20 @@ export const useMapbox = ({
     }
   }
 
+  // Function to fly to a specific location (for search results)
+  const flyToLocation = useCallback((coordinates: [number, number], zoom: number = 12) => {
+    if (!map.current) return
+
+    map.current.flyTo({
+      center: coordinates,
+      zoom: zoom,
+      pitch: isGlobeView ? 0 : 45,
+      bearing: 0,
+      essential: true,
+      duration: 2000
+    })
+  }, [isGlobeView])
+
   const updateTimelineFilter = useCallback((startDate: Date, endDate: Date) => {
     if (!map.current || !originalGeoJsonData) return
 
@@ -790,15 +822,28 @@ export const useMapbox = ({
     const filteredData = {
       ...originalGeoJsonData,
       features: originalGeoJsonData.features.filter((feature: any) => {
+        const featureType = feature.properties?.type
         const timestamp = feature.properties?.timestamp
-        if (!timestamp) return true // Include features without timestamp
         
+        // Always include Target features (they don't have timestamps by design)
+        if (featureType === 'Target') {
+          return true
+        }
+        
+        // Include features without timestamp (fallback for other feature types)
+        if (!timestamp) return true
+        
+        // Filter other features by timestamp
         const featureDate = new Date(timestamp)
         return featureDate >= startDate && featureDate <= endDate
       })
     }
 
+    const targetCount = filteredData.features.filter((f: any) => f.properties?.type === 'Target').length
+    const totalOriginalTargets = originalGeoJsonData.features.filter((f: any) => f.properties?.type === 'Target').length
+    
     console.log(`Timeline filtered from ${originalGeoJsonData.features.length} to ${filteredData.features.length} features`)
+    console.log(`Target features: ${targetCount}/${totalOriginalTargets} (always included - no timestamps)`)
 
     // Update the data source
     const source = map.current.getSource('rfi-data') as any
@@ -810,6 +855,17 @@ export const useMapbox = ({
   const cleanup = () => {
     try {
       if (map.current) {
+        // Remove navigation controls
+        if (navigationControlRef.current) {
+          try {
+            map.current.removeControl(navigationControlRef.current)
+            navigationControlRef.current = null
+          } catch (e) {
+            console.warn("Error removing navigation control:", e)
+          }
+        }
+        
+        // Remove markers
         markersRef.current.forEach(({ marker }) => {
           try {
             marker.remove()
@@ -818,6 +874,8 @@ export const useMapbox = ({
           }
         })
         markersRef.current = []
+        
+        // Remove map
         map.current.remove()
         map.current = null
       }
@@ -852,12 +910,7 @@ export const useMapbox = ({
     }
   }, [selectedCamera])
 
-  // Start rotation when map is loaded and in globe view
-  useEffect(() => {
-    if (mapLoaded && isGlobeView) {
-      spinGlobe()
-    }
-  }, [mapLoaded, isGlobeView, spinGlobe])
+  // Globe rotation disabled
 
   // Update layer visibility when visibleLayers changes
   useEffect(() => {
@@ -925,6 +978,70 @@ export const useMapbox = ({
       )
     }
   }, [visibleLayers])
+
+  // Update data source when report subfilters change
+  useEffect(() => {
+    if (!map.current || !originalGeoJsonData) return
+
+    console.log('Report subfilters changed, updating data source:', reportSubfilters)
+
+    // Apply time range filtering if present
+    let filteredData = originalGeoJsonData
+    if (timeRange) {
+      filteredData = {
+        ...originalGeoJsonData,
+        features: originalGeoJsonData.features.filter((feature: any) => {
+          const featureType = feature.properties?.type
+          const timestamp = feature.properties?.timestamp
+          
+          // Always include Target features (they don't have timestamps by design)
+          if (featureType === 'Target') {
+            return true
+          }
+          
+          // Include features without timestamp (fallback for other feature types)
+          if (!timestamp) return true
+          
+          // Filter other features by timestamp
+          const featureDate = new Date(timestamp)
+          return featureDate >= timeRange.start && featureDate <= timeRange.end
+        })
+      }
+    }
+
+    // Apply report subfilters
+    filteredData = {
+      ...filteredData,
+      features: filteredData.features.filter((feature: any) => {
+        const featureType = feature.properties?.type
+        const source = feature.properties?.source
+        
+        // For Report features, apply subfilter logic
+        if (featureType === 'Report') {
+          console.log('Processing Report feature:', { id: feature.properties?.id, source, reportSubfilters })
+          if (source === 'System' && !reportSubfilters.system) {
+            console.log('Filtering out System report:', feature.properties?.id)
+            return false
+          }
+          if (source === 'Legacy' && !reportSubfilters.legacy) {
+            console.log('Filtering out Legacy report:', feature.properties?.id)
+            return false
+          }
+          console.log('Including Report feature:', feature.properties?.id)
+        }
+        
+        // Include all non-Report features
+        return true
+      })
+    }
+
+    // Update the map data source
+    const source = map.current.getSource('rfi-data') as any
+    if (source) {
+      source.setData(filteredData)
+      console.log('Map data source updated with new report subfilters')
+    }
+  }, [reportSubfilters, timeRange, originalGeoJsonData])
 
   // Function to get related feature IDs based on the selected feature
   const getRelatedFeatureIds = useCallback((feature: any) => {
@@ -1120,6 +1237,7 @@ export const useMapbox = ({
     currentTheme,
     changeMapStyle,
     flyToCamera,
+    flyToLocation,
     isRotating,
     toggleRotation,
     selectedFeature,
@@ -1127,6 +1245,7 @@ export const useMapbox = ({
     map: map.current,
     updateTimelineFilter,
     clearFeatureHighlighting,
-    highlightedFeatures
+    highlightedFeatures,
+    originalGeoJsonData
   }
 }

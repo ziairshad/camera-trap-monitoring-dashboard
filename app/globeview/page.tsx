@@ -6,7 +6,7 @@ import { Header } from "@/components/Header"
 import { MAP_THEMES } from "@/config/constants"
 import type { MapTheme } from "@/types"
 import MapControls from '@/components/MapControls'
-import GlobeControls from '@/components/GlobeControls'
+
 import FeatureCard from '@/components/FeatureCard'
 import GlobeTimelineFilter from '@/components/GlobeTimelineFilter'
 
@@ -19,8 +19,12 @@ export default function GlobeView() {
     targets: true,
     layers: true
   })
-  const [wasRotatingBeforeFeatureClick, setWasRotatingBeforeFeatureClick] = useState(false)
-  const hasHandledCurrentFeature = useRef(false)
+
+  const [reportSubfilters, setReportSubfilters] = useState({
+    system: true,
+    legacy: true
+  })
+
   const [timeRange, setTimeRange] = useState<{start: Date, end: Date} | undefined>(undefined)
 
   // Handle layer toggle
@@ -29,6 +33,19 @@ export default function GlobeView() {
       ...prev,
       [layerId]: visible
     }))
+  }, [])
+
+  // Handle report subfilter toggle
+  const handleToggleReportSubfilter = useCallback((subfilter: 'system' | 'legacy', visible: boolean) => {
+    console.log('Report subfilter toggle:', { subfilter, visible, currentState: reportSubfilters })
+    setReportSubfilters(prev => {
+      const newState = {
+        ...prev,
+        [subfilter]: visible
+      }
+      console.log('New report subfilters state:', newState)
+      return newState
+    })
   }, [])
 
   const {
@@ -43,7 +60,9 @@ export default function GlobeView() {
     map,
     updateTimelineFilter,
     clearFeatureHighlighting,
-    highlightedFeatures
+    highlightedFeatures,
+    flyToLocation,
+    originalGeoJsonData
   } = useMapbox({
     cameras: [],
     initialThemeIndex: 1,
@@ -51,6 +70,7 @@ export default function GlobeView() {
     selectedCamera: null,
     onToggleLayer: handleToggleLayer,
     visibleLayers,
+    reportSubfilters,
     timeRange,
     onFeatureClick: (feature) => {
       console.log('Feature clicked in GlobeView:', feature);
@@ -63,33 +83,11 @@ export default function GlobeView() {
     setCurrentMapTheme(theme)
   }, [])
 
-  // Watch for selectedFeature changes to handle rotation pause/resume
-  useEffect(() => {
-    if (selectedFeature && !hasHandledCurrentFeature.current) {
-      // New feature was selected - check if we need to pause rotation
-      if (isRotating) {
-        console.log('Feature selected, pausing rotation');
-        setWasRotatingBeforeFeatureClick(true);
-        toggleRotation();
-      }
-      hasHandledCurrentFeature.current = true;
-    } else if (!selectedFeature) {
-      // Feature was deselected - reset the handler flag
-      hasHandledCurrentFeature.current = false;
-    }
-  }, [selectedFeature, isRotating, toggleRotation])
-
-  // Handle feature card close - resume rotation if it was rotating before
+  // Handle feature card close - rotation disabled, simplified implementation
   const handleFeatureCardClose = useCallback(() => {
     setSelectedFeature(null);
     clearFeatureHighlighting(); // Clear feature highlighting when card is closed
-    hasHandledCurrentFeature.current = false; // Reset the handler flag
-    if (wasRotatingBeforeFeatureClick && !isRotating) {
-      console.log('Resuming rotation after feature card close');
-      toggleRotation(); // Resume rotation
-      setWasRotatingBeforeFeatureClick(false);
-    }
-  }, [wasRotatingBeforeFeatureClick, isRotating, toggleRotation, setSelectedFeature, clearFeatureHighlighting])
+  }, [setSelectedFeature, clearFeatureHighlighting])
 
   // Handle timeline filter changes
   const handleTimeRangeChange = useCallback((startDate: Date, endDate: Date) => {
@@ -98,6 +96,32 @@ export default function GlobeView() {
       updateTimelineFilter(startDate, endDate)
     }
   }, [updateTimelineFilter])
+
+  // Handle search result selection
+  const handleSearchResultSelect = useCallback((result: any) => {
+    console.log('Search result selected:', result)
+    
+    // Fly to the location
+    if (flyToLocation) {
+      const zoomLevel = result.type === 'Place' ? 12 : 16
+      flyToLocation(result.coordinates, zoomLevel)
+    }
+    
+    // For data features, find and select the corresponding feature for highlighting
+    if (result.type !== 'Place' && originalGeoJsonData?.features) {
+      const feature = originalGeoJsonData.features.find((f: any) => 
+        f.properties?.id === result.id && f.properties?.type === result.type
+      )
+      
+      if (feature) {
+        setSelectedFeature(feature)
+      }
+    } else if (result.type === 'Place') {
+      // For places, clear any existing feature selection
+      setSelectedFeature(null)
+      clearFeatureHighlighting()
+    }
+  }, [flyToLocation, originalGeoJsonData, setSelectedFeature, clearFeatureHighlighting])
 
   return (
     <div className="relative h-screen w-full bg-gray-900 overflow-hidden">
@@ -117,6 +141,8 @@ export default function GlobeView() {
         mapError={mapError} 
         currentMapTheme={currentMapTheme} 
         onMapThemeChange={handleMapThemeChange}
+        geoJsonData={originalGeoJsonData}
+        onSearchResultSelect={handleSearchResultSelect}
       />
 
       {/* Feature Details Card */}
@@ -130,12 +156,9 @@ export default function GlobeView() {
 
       <MapControls 
         onToggleLayer={handleToggleLayer}
+        onToggleReportSubfilter={handleToggleReportSubfilter}
         visibleLayers={visibleLayers}
-      />
-
-      <GlobeControls
-        isRotating={isRotating}
-        onToggleRotation={toggleRotation}
+        reportSubfilters={reportSubfilters}
       />
 
       <GlobeTimelineFilter

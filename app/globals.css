@@ -143,3 +143,138 @@
   opacity: 0;
   animation: widgetItemFadeIn 0.5s ease-out forwards;
 }
+
+/* Mapbox Navigation Controls Positioning */
+.mapboxgl-ctrl-bottom-right {
+  bottom: 20px !important;
+  right: 20px !important;
+  z-index: 1000;
+}
+
+.mapboxgl-ctrl-group {
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37) !important;
+  overflow: hidden !important;
+}
+
+.mapboxgl-ctrl-zoom-in,
+.mapboxgl-ctrl-zoom-out,
+.mapboxgl-ctrl-compass {
+  background: rgba(255, 255, 255, 0.15) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: none !important;
+  border-radius: 0 !important;
+  color: white !important;
+  transition: all 0.3s ease !important;
+  width: 40px !important;
+  height: 40px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.mapboxgl-ctrl-zoom-in .mapboxgl-ctrl-icon,
+.mapboxgl-ctrl-zoom-out .mapboxgl-ctrl-icon,
+.mapboxgl-ctrl-compass .mapboxgl-ctrl-icon {
+  filter: brightness(0) invert(1) !important;
+  transform: scale(0.8) !important;
+  stroke-width: 1px !important;
+  font-weight: 300 !important;
+}
+
+/* Make the SVG paths thinner */
+.mapboxgl-ctrl-zoom-in .mapboxgl-ctrl-icon svg,
+.mapboxgl-ctrl-zoom-out .mapboxgl-ctrl-icon svg,
+.mapboxgl-ctrl-compass .mapboxgl-ctrl-icon svg {
+  stroke-width: 1.5 !important;
+}
+
+.mapboxgl-ctrl-zoom-in .mapboxgl-ctrl-icon svg path,
+.mapboxgl-ctrl-zoom-out .mapboxgl-ctrl-icon svg path,
+.mapboxgl-ctrl-compass .mapboxgl-ctrl-icon svg path {
+  stroke-width: 1.5 !important;
+  vector-effect: non-scaling-stroke !important;
+}
+
+.mapboxgl-ctrl-zoom-in:hover,
+.mapboxgl-ctrl-zoom-out:hover,
+.mapboxgl-ctrl-compass:hover {
+  background: rgba(255, 255, 255, 0.25) !important;
+  color: white !important;
+  transform: translateY(-1px) !important;
+}
+
+.mapboxgl-ctrl-zoom-in:first-child {
+  border-top-left-radius: 12px !important;
+  border-top-right-radius: 12px !important;
+}
+
+.mapboxgl-ctrl-compass:last-child {
+  border-bottom-left-radius: 12px !important;
+  border-bottom-right-radius: 12px !important;
+}
+
+/* Glassmorphism effect for dark backgrounds */
+.dark .mapboxgl-ctrl-group {
+  background: rgba(0, 0, 0, 0.25) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark .mapboxgl-ctrl-zoom-in,
+.dark .mapboxgl-ctrl-zoom-out,
+.dark .mapboxgl-ctrl-compass {
+  background: rgba(0, 0, 0, 0.3) !important;
+  color: white !important;
+}
+
+.dark .mapboxgl-ctrl-zoom-in .mapboxgl-ctrl-icon,
+.dark .mapboxgl-ctrl-zoom-out .mapboxgl-ctrl-icon,
+.dark .mapboxgl-ctrl-compass .mapboxgl-ctrl-icon {
+  filter: brightness(0) invert(1) !important;
+  transform: scale(0.8) !important;
+  stroke-width: 1px !important;
+  font-weight: 300 !important;
+}
+
+/* Make the SVG paths thinner in dark mode */
+.dark .mapboxgl-ctrl-zoom-in .mapboxgl-ctrl-icon svg,
+.dark .mapboxgl-ctrl-zoom-out .mapboxgl-ctrl-icon svg,
+.dark .mapboxgl-ctrl-compass .mapboxgl-ctrl-icon svg {
+  stroke-width: 1.5 !important;
+}
+
+.dark .mapboxgl-ctrl-zoom-in .mapboxgl-ctrl-icon svg path,
+.dark .mapboxgl-ctrl-zoom-out .mapboxgl-ctrl-icon svg path,
+.dark .mapboxgl-ctrl-compass .mapboxgl-ctrl-icon svg path {
+  stroke-width: 1.5 !important;
+  vector-effect: non-scaling-stroke !important;
+}
+
+.dark .mapboxgl-ctrl-zoom-in:hover,
+.dark .mapboxgl-ctrl-zoom-out:hover,
+.dark .mapboxgl-ctrl-compass:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: white !important;
+}
+
+/* Enhanced Glassmorphism for Search Components */
+.search-glassmorphism {
+  background: rgba(0, 0, 0, 0.2) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+}
+
+.search-glassmorphism-hover:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.search-glassmorphism-selected {
+  background: rgba(255, 255, 255, 0.15) !important;
+}

@@ -3,7 +3,7 @@ import { Badge } from './ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Separator } from './ui/separator';
 import { Button } from './ui/button';
-import { Calendar, MapPin, User, Shield, FileText, Target, Layers, Clock, AlertTriangle } from 'lucide-react';
+import { Calendar, MapPin, User, Shield, FileText, Target, Layers, Clock, AlertTriangle, SquareArrowOutUpRight } from 'lucide-react';
 
 interface FeatureCardProps {
   feature: any;
@@ -235,7 +235,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ feature, onClose, map }) => {
               <p className="text-sm text-white/70 leading-relaxed">{properties.description}</p>
             )}
 
-            <div className="grid grid-cols-2 gap-3 text-xs">
+            <div className="space-y-2 text-xs">
               <div className="flex items-center gap-1">
                 <Calendar className="w-3 h-3 text-white/50" />
                 <span className="text-white/60">Created:</span>
@@ -290,7 +290,10 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ feature, onClose, map }) => {
               className="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-sm py-2"
               onClick={() => console.log('View RFI clicked:', properties.id)}
             >
-              View RFI
+              <span className="flex items-center gap-2">
+                View RFI
+                <SquareArrowOutUpRight className="w-4 h-4" />
+              </span>
             </Button>
           </div>
         );
@@ -302,7 +305,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ feature, onClose, map }) => {
               <span className="text-white/90 font-medium">{properties.name || 'Unnamed Report'}</span>
             </div>
 
-            <div className="grid grid-cols-2 gap-3 text-xs">
+            <div className="space-y-2 text-xs">
               <div className="flex items-center gap-1">
                 <Calendar className="w-3 h-3 text-white/50" />
                 <span className="text-white/60">Created:</span>
@@ -346,7 +349,10 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ feature, onClose, map }) => {
               className="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-sm py-2"
               onClick={() => console.log('Open Report clicked:', properties.id)}
             >
-              Open Report
+              <span className="flex items-center gap-2">
+                Open Report
+                <SquareArrowOutUpRight className="w-4 h-4" />
+              </span>
             </Button>
           </div>
         );
@@ -390,7 +396,10 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ feature, onClose, map }) => {
               className="w-full bg-amber-600 hover:bg-amber-700 text-white text-sm py-2"
               onClick={() => console.log('View Target clicked:', properties.id)}
             >
-              View Target
+              <span className="flex items-center gap-2">
+                View Target
+                <SquareArrowOutUpRight className="w-4 h-4" />
+              </span>
             </Button>
           </div>
         );
@@ -402,7 +411,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ feature, onClose, map }) => {
               <span className="text-white/90 font-medium">{properties.layer_name || 'Unnamed Layer'}</span>
             </div>
 
-            <div className="grid grid-cols-2 gap-3 text-xs">
+            <div className="space-y-2 text-xs">
               <div className="flex items-center gap-1">
                 <Calendar className="w-3 h-3 text-white/50" />
                 <span className="text-white/60">Acquired:</span>
@@ -447,7 +456,10 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ feature, onClose, map }) => {
               className="w-full bg-slate-600 hover:bg-slate-700 text-white text-sm py-2"
               onClick={() => console.log('View in Exploration clicked:', properties.id)}
             >
-              View in Exploration
+              <span className="flex items-center gap-2">
+                View in Exploration
+                <SquareArrowOutUpRight className="w-4 h-4" />
+              </span>
             </Button>
           </div>
         );
@@ -491,7 +503,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ feature, onClose, map }) => {
           <div className={colors.text}>
             {getTypeIcon()}
           </div>
-          <h3 className="text-lg font-semibold text-white/90">{type || 'Unknown'}</h3>
+          <h3 className="text-lg font-semibold text-white/90">{type === 'Layer' ? 'Image' : type || 'Unknown'}</h3>
         </div>
 
         {/* Content */}

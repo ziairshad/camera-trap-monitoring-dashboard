@@ -88,6 +88,28 @@ export default function GlobeTimelineFilter({ onTimeRangeChange, className = "" 
     let start: Date, end: Date
 
     switch (preset) {
+      case 'today':
+        start = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+        end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59)
+        break
+      case 'yesterday':
+        const yesterday = new Date(now)
+        yesterday.setDate(yesterday.getDate() - 1)
+        start = new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate())
+        end = new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate(), 23, 59, 59)
+        break
+      case 'last-week':
+        const lastWeek = new Date(now)
+        lastWeek.setDate(lastWeek.getDate() - 7)
+        start = lastWeek
+        end = now
+        break
+      case 'last-month':
+        const lastMonth = new Date(now)
+        lastMonth.setMonth(lastMonth.getMonth() - 1)
+        start = lastMonth
+        end = now
+        break
       case 'last-year':
         start = new Date(now.getFullYear() - 1, 0, 1)
         end = new Date(now.getFullYear() - 1, 11, 31)
@@ -273,24 +295,34 @@ export default function GlobeTimelineFilter({ onTimeRangeChange, className = "" 
               isMinimized ? 'opacity-0' : 'opacity-100'
             }`}>
               {[
-                { key: 'all', label: 'All' },
-                { key: 'this-year', label: 'This Year' },
-                { key: 'last-year', label: 'Last Year' },
-                { key: '2024', label: '2024' },
+                { key: '2022', label: '2022' },
                 { key: '2023', label: '2023' },
-                { key: '2022', label: '2022' }
+                { key: 'last-year', label: 'Last Year' },
+                { key: 'this-year', label: 'This Year' },
+                { key: 'last-month', label: 'Last Month' },
+                { key: 'last-week', label: 'Last Week' },
+                { key: 'yesterday', label: 'Yesterday' },
+                { key: 'today', label: 'Today' },
+                { key: 'separator', label: '|' },
+                { key: 'all', label: 'All Time' }
               ].map(({ key, label }) => (
-                <button
-                  key={key}
-                  onClick={() => handlePresetClick(key)}
-                  className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors duration-150 ${
-                    activePreset === key
-                      ? 'bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/30 text-white shadow-lg shadow-blue-500/20'
-                      : 'bg-white/5 border border-white/10 text-white/80 hover:bg-white/10'
-                  }`}
-                >
-                  {label}
-                </button>
+                key === 'separator' ? (
+                  <div key={key} className="flex items-center px-1">
+                    <span className="text-white/30 text-xs">|</span>
+                  </div>
+                ) : (
+                  <button
+                    key={key}
+                    onClick={() => handlePresetClick(key)}
+                    className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors duration-150 ${
+                      activePreset === key
+                        ? 'bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/30 text-white shadow-lg shadow-blue-500/20'
+                        : 'bg-white/5 border border-white/10 text-white/80 hover:bg-white/10'
+                    }`}
+                  >
+                    {label}
+                  </button>
+                )
               ))}
             </div>
 
@@ -374,10 +406,6 @@ export default function GlobeTimelineFilter({ onTimeRangeChange, className = "" 
             <span>
               {activePreset === 'all' ? 'All Data' : `${activePreset || 'Custom Range'}`}
             </span>
-            <div className="flex items-center gap-1">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-              <span>Live</span>
-            </div>
           </div>
         </div>
       </div>

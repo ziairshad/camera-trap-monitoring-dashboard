@@ -6,14 +6,25 @@ import type { MapTheme } from "../types"
 import { useClientOnly } from "@/hooks/useClientOnly"
 import { useAuth } from "./AuthProvider"
 import { LogOut } from "lucide-react"
+import { GlobalSearch } from "./GlobalSearch"
+
+interface SearchResult {
+  id: string
+  type: 'Target' | 'Report' | 'RFI' | 'Layer'
+  name: string
+  coordinates: [number, number]
+  properties: any
+}
 
 interface HeaderProps {
   mapError: string | null
   currentMapTheme: MapTheme
   onMapThemeChange: (theme: MapTheme) => void
+  geoJsonData?: any
+  onSearchResultSelect?: (result: SearchResult) => void
 }
 
-export function Header({ mapError, currentMapTheme, onMapThemeChange }: HeaderProps) {
+export function Header({ mapError, currentMapTheme, onMapThemeChange, geoJsonData, onSearchResultSelect }: HeaderProps) {
   const pathname = usePathname()
   const isGlobeView = pathname === "/globeview"
   const [currentTime, setCurrentTime] = useState(new Date())
@@ -41,7 +52,7 @@ export function Header({ mapError, currentMapTheme, onMapThemeChange }: HeaderPr
                 <div className="h-8 w-auto mr-1">
                   <img src="/GIX-Logo-White.svg" alt="GIX Logo" className="h-full w-auto" />
                 </div>
-                <h1 className="text-lg font-bold">Real-Time Monitoring Dashboard</h1>
+                <h1 className="text-lg font-bold">Search Map</h1>
               </div>
               <Badge variant="outline" className="border-blue-400/50 text-blue-400 text-xs font-mono">
                 {isMounted ? currentTime.toLocaleTimeString('en-US', { 
@@ -58,23 +69,34 @@ export function Header({ mapError, currentMapTheme, onMapThemeChange }: HeaderPr
                 </Badge>
               )}
             </div>
-            <div className="flex items-center gap-2">
-              {userEmail && (
-                <span className="text-white/60 text-sm">
-                  {userEmail}
-                </span>
+            <div className="flex items-center gap-4">
+              {/* Global Search */}
+              {geoJsonData && onSearchResultSelect && (
+                <GlobalSearch
+                  geoJsonData={geoJsonData}
+                  onResultSelect={onSearchResultSelect}
+                  className="hidden sm:block"
+                />
               )}
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={logout}
-                className="text-white hover:bg-white/10 h-8 px-2 gap-1"
-              >
-                <LogOut className="h-3 w-3" />
-                <span className="text-xs hidden sm:inline-block">
-                  Logout
-                </span>
-              </Button>
+              
+              <div className="flex items-center gap-2">
+                {userEmail && (
+                  <span className="text-white/60 text-sm">
+                    {userEmail}
+                  </span>
+                )}
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={logout}
+                  className="text-white hover:bg-white/10 h-8 px-2 gap-1"
+                >
+                  <LogOut className="h-3 w-3" />
+                  <span className="text-xs hidden sm:inline-block">
+                    Logout
+                  </span>
+                </Button>
+              </div>
             </div>
           </div>
         </div>

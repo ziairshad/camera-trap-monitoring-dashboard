@@ -1685,8 +1685,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_1",
-        "type": "Target",
-        "timestamp": "2020-09-19T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Point",
@@ -1700,8 +1699,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_2",
-        "type": "Target",
-        "timestamp": "2025-09-16T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Polygon",
@@ -1735,8 +1733,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_3",
-        "type": "Target",
-        "timestamp": "2022-11-01T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Point",
@@ -1750,8 +1747,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_4",
-        "type": "Target",
-        "timestamp": "2022-08-01T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Polygon",
@@ -1785,8 +1781,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_5",
-        "type": "Target",
-        "timestamp": "2020-04-04T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Point",
@@ -1800,8 +1795,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_6",
-        "type": "Target",
-        "timestamp": "2021-09-04T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Polygon",
@@ -1835,8 +1829,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_7",
-        "type": "Target",
-        "timestamp": "2021-06-29T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Point",
@@ -1850,8 +1843,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_8",
-        "type": "Target",
-        "timestamp": "2020-03-06T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Polygon",
@@ -1885,8 +1877,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_9",
-        "type": "Target",
-        "timestamp": "2022-09-17T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Point",
@@ -1900,8 +1891,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_10",
-        "type": "Target",
-        "timestamp": "2023-10-29T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Polygon",
@@ -1935,8 +1925,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_11",
-        "type": "Target",
-        "timestamp": "2024-11-17T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Point",
@@ -1950,8 +1939,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_12",
-        "type": "Target",
-        "timestamp": "2022-07-11T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Polygon",
@@ -1985,8 +1973,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_13",
-        "type": "Target",
-        "timestamp": "2025-09-13T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Point",
@@ -2000,8 +1987,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_14",
-        "type": "Target",
-        "timestamp": "2023-07-12T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Polygon",
@@ -2035,8 +2021,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_15",
-        "type": "Target",
-        "timestamp": "2022-05-26T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Point",
@@ -2050,8 +2035,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_16",
-        "type": "Target",
-        "timestamp": "2023-05-27T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Polygon",
@@ -2085,8 +2069,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_17",
-        "type": "Target",
-        "timestamp": "2025-11-01T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Point",
@@ -2100,8 +2083,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_18",
-        "type": "Target",
-        "timestamp": "2024-07-04T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Polygon",
@@ -2135,8 +2117,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_19",
-        "type": "Target",
-        "timestamp": "2023-03-16T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Point",
@@ -2150,8 +2131,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_20",
-        "type": "Target",
-        "timestamp": "2021-10-02T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Polygon",
@@ -2185,8 +2165,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_21",
-        "type": "Target",
-        "timestamp": "2024-09-27T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Point",
@@ -2200,8 +2179,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_22",
-        "type": "Target",
-        "timestamp": "2022-01-22T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Polygon",
@@ -2235,8 +2213,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_23",
-        "type": "Target",
-        "timestamp": "2024-02-25T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Point",
@@ -2250,8 +2227,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_24",
-        "type": "Target",
-        "timestamp": "2021-12-11T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Polygon",
@@ -2285,8 +2261,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_25",
-        "type": "Target",
-        "timestamp": "2022-12-20T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Point",
@@ -2300,8 +2275,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_26",
-        "type": "Target",
-        "timestamp": "2021-09-24T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Polygon",
@@ -2335,8 +2309,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_27",
-        "type": "Target",
-        "timestamp": "2024-11-27T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Point",
@@ -2350,8 +2323,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_28",
-        "type": "Target",
-        "timestamp": "2024-08-17T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Polygon",
@@ -2385,8 +2357,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_29",
-        "type": "Target",
-        "timestamp": "2024-10-24T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Point",
@@ -2400,8 +2371,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_30",
-        "type": "Target",
-        "timestamp": "2023-01-29T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Polygon",
@@ -2435,8 +2405,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_31",
-        "type": "Target",
-        "timestamp": "2023-10-23T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Point",
@@ -2450,8 +2419,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_32",
-        "type": "Target",
-        "timestamp": "2020-06-10T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Polygon",
@@ -2485,8 +2453,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_33",
-        "type": "Target",
-        "timestamp": "2023-07-23T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Point",
@@ -2500,8 +2467,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_34",
-        "type": "Target",
-        "timestamp": "2024-06-23T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Polygon",
@@ -2535,8 +2501,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_35",
-        "type": "Target",
-        "timestamp": "2024-07-25T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Point",
@@ -2550,8 +2515,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_36",
-        "type": "Target",
-        "timestamp": "2025-01-28T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Polygon",
@@ -2585,8 +2549,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_37",
-        "type": "Target",
-        "timestamp": "2025-05-07T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Point",
@@ -2600,8 +2563,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_38",
-        "type": "Target",
-        "timestamp": "2024-05-25T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Polygon",
@@ -2635,8 +2597,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_39",
-        "type": "Target",
-        "timestamp": "2022-03-04T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Point",
@@ -2650,8 +2611,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_40",
-        "type": "Target",
-        "timestamp": "2023-09-30T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Polygon",
@@ -2685,8 +2645,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_41",
-        "type": "Target",
-        "timestamp": "2025-01-26T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Point",
@@ -2700,8 +2659,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_42",
-        "type": "Target",
-        "timestamp": "2024-12-01T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Polygon",
@@ -2735,8 +2693,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_43",
-        "type": "Target",
-        "timestamp": "2024-04-10T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Point",
@@ -2750,8 +2707,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_44",
-        "type": "Target",
-        "timestamp": "2021-08-21T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Polygon",
@@ -2785,8 +2741,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_45",
-        "type": "Target",
-        "timestamp": "2020-08-09T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Point",
@@ -2800,8 +2755,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_46",
-        "type": "Target",
-        "timestamp": "2025-03-30T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Polygon",
@@ -2835,8 +2789,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_47",
-        "type": "Target",
-        "timestamp": "2025-01-21T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Point",
@@ -2850,8 +2803,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_48",
-        "type": "Target",
-        "timestamp": "2022-12-20T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Polygon",
@@ -2885,8 +2837,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_49",
-        "type": "Target",
-        "timestamp": "2020-12-18T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Point",
@@ -2900,8 +2851,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_50",
-        "type": "Target",
-        "timestamp": "2025-11-25T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Polygon",
@@ -2935,8 +2885,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_51",
-        "type": "Target",
-        "timestamp": "2021-10-31T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Point",
@@ -2950,8 +2899,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_52",
-        "type": "Target",
-        "timestamp": "2020-02-08T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Polygon",
@@ -2985,8 +2933,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_53",
-        "type": "Target",
-        "timestamp": "2020-12-03T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Point",
@@ -3000,8 +2947,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_54",
-        "type": "Target",
-        "timestamp": "2022-09-08T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Polygon",
@@ -3035,8 +2981,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_55",
-        "type": "Target",
-        "timestamp": "2020-09-21T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Point",
@@ -3050,8 +2995,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_56",
-        "type": "Target",
-        "timestamp": "2022-06-29T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Polygon",
@@ -3085,8 +3029,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_57",
-        "type": "Target",
-        "timestamp": "2023-12-01T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Point",
@@ -3100,8 +3043,7 @@
       "type": "Feature",
       "properties": {
         "id": "target_58",
-        "type": "Target",
-        "timestamp": "2022-06-08T00:00:00"
+        "type": "Target"
       },
       "geometry": {
         "type": "Polygon",

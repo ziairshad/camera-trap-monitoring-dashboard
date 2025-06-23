@@ -428,23 +428,77 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ feature, onClose, map }) => {
               <>
                 <Separator className="bg-white/10" />
                 <div className="space-y-1 text-xs">
-                  <div className="text-white/60 font-medium">Satellite Metadata:</div>
+                  <div className="text-white/60 font-medium">Metadata:</div>
                   {properties.satellite_metadata.satellite && (
                     <div>
                       <span className="text-white/50">Satellite: </span>
                       <span className="text-white/80">{properties.satellite_metadata.satellite}</span>
                     </div>
                   )}
-                  {properties.satellite_metadata.resolution && (
+                  {properties.satellite_metadata.sensor && (
                     <div>
-                      <span className="text-white/50">Resolution: </span>
-                      <span className="text-white/80">{properties.satellite_metadata.resolution}</span>
+                      <span className="text-white/50">Sensor: </span>
+                      <span className="text-white/80">{properties.satellite_metadata.sensor}</span>
                     </div>
                   )}
-                  {properties.satellite_metadata.cloud_cover !== undefined && (
+                  {(properties.resolution || properties.satellite_metadata.resolution) && (
+                    <div>
+                      <span className="text-white/50">Resolution: </span>
+                      <span className="text-white/80">{properties.resolution || properties.satellite_metadata.resolution}</span>
+                    </div>
+                  )}
+                  {properties.satellite_metadata.cloud_cover && (
                     <div>
                       <span className="text-white/50">Cloud Cover: </span>
-                      <span className="text-white/80">{properties.satellite_metadata.cloud_cover}%</span>
+                      <span className="text-white/80">{properties.satellite_metadata.cloud_cover}</span>
+                    </div>
+                  )}
+                  {properties.satellite_metadata.processing_level && (
+                    <div>
+                      <span className="text-white/50">Processing: </span>
+                      <span className="text-white/80">{properties.satellite_metadata.processing_level}</span>
+                    </div>
+                  )}
+                  {properties.satellite_metadata.bands && (
+                    <div>
+                      <span className="text-white/50">Bands: </span>
+                      <span className="text-white/80">{properties.satellite_metadata.bands}</span>
+                    </div>
+                  )}
+                  {properties.quality_score && (
+                    <div>
+                      <span className="text-white/50">Quality: </span>
+                      <span className="text-white/80">{properties.quality_score}</span>
+                    </div>
+                  )}
+                  {properties.coverage_area && (
+                    <div>
+                      <span className="text-white/50">Coverage: </span>
+                      <span className="text-white/80">{properties.coverage_area}</span>
+                    </div>
+                  )}
+                  {properties.width && (
+                    <div>
+                      <span className="text-white/50">Dimensions: </span>
+                      <span className="text-white/80">{properties.width} × {properties.height}</span>
+                    </div>
+                  )}
+                  {properties.max_zoom_level && (
+                    <div>
+                      <span className="text-white/50">Max Zoom: </span>
+                      <span className="text-white/80">Level {properties.max_zoom_level}</span>
+                    </div>
+                  )}
+                  {properties.source && (
+                    <div>
+                      <span className="text-white/50">Source: </span>
+                      <span className="text-white/80">{properties.source}</span>
+                    </div>
+                  )}
+                  {properties.owner && (
+                    <div>
+                      <span className="text-white/50">Owner: </span>
+                      <span className="text-white/80">{properties.owner}</span>
                     </div>
                   )}
                 </div>

@@ -62,6 +62,7 @@ export const useMapbox = ({
   const [selectedFeature, setSelectedFeature] = useState<any>(null)
   const [originalGeoJsonData, setOriginalGeoJsonData] = useState<any>(null)
   const [highlightedFeatures, setHighlightedFeatures] = useState<Set<string>>(new Set())
+  const [mouseCoordinates, setMouseCoordinates] = useState<{ lng: number; lat: number } | null>(null)
 
   // Rotation disabled - keeping minimal implementation for compatibility
   const spinGlobe = useCallback(() => {
@@ -96,12 +97,13 @@ export const useMapbox = ({
         style: currentTheme.style,
         center: isGlobeView ? [54.3773, 24.4539] : [54.3773, 24.4539],
         zoom: isGlobeView ? 3.2 : 5,
-        pitch: isGlobeView ? 0 : 45,
+        pitch: 0, // Top-down view for both globe and flat map
         bearing: 0,
         antialias: true,
         preserveDrawingBuffer: true,
         projection: isGlobeView ? 'globe' : 'mercator',
         failIfMajorPerformanceCaveat: false,
+        attributionControl: false, // Disable attribution control
       })
 
       map.current.on("error", (e: any) => {
@@ -524,6 +526,17 @@ export const useMapbox = ({
                   console.log('Clicked on empty space, clearing highlighting');
                   clearFeatureHighlighting();
                 }
+              });
+
+              // Add mousemove handler to track coordinates
+              map.current?.on('mousemove', (e) => {
+                const { lng, lat } = e.lngLat;
+                setMouseCoordinates({ lng, lat });
+              });
+
+              // Clear coordinates when mouse leaves the map
+              map.current?.on('mouseleave', () => {
+                setMouseCoordinates(null);
               });
             }, 1000);
 
@@ -1230,6 +1243,54 @@ export const useMapbox = ({
     }
   }, [getRelatedFeatureIds, applyFeatureHighlighting, clearFeatureHighlighting, onFeatureClick])
 
+  // Function to toggle between globe and flat map projections
+  const toggleMapProjection = useCallback((newIsGlobeView: boolean) => {
+    if (!map.current) return
+    
+    console.log('Toggling map projection to:', newIsGlobeView ? 'globe' : 'flat')
+    
+    // Store current map state
+    const currentCenter = map.current.getCenter()
+    const currentZoom = map.current.getZoom()
+    
+    // Set new projection
+    map.current.setProjection(newIsGlobeView ? 'globe' : 'mercator')
+    
+    // Adjust view settings based on projection
+    if (newIsGlobeView) {
+      // Globe view settings
+      map.current.setFog({
+        color: 'rgb(41, 128, 255)',
+        'high-color': 'rgb(41, 128, 255)',
+        'horizon-blend': 0.01,
+        'space-color': 'rgb(1, 12, 32)',
+        'star-intensity': 0,
+        'range': [0.5, 2]
+      })
+      
+      // Adjust camera for globe view
+      map.current.easeTo({
+        center: currentCenter,
+        zoom: Math.max(currentZoom * 0.8, 2), // Slightly zoom out for globe
+        pitch: 0,
+        bearing: 0,
+        duration: 1000
+      })
+    } else {
+      // Flat map view settings
+      map.current.setFog(null) // Remove fog
+      
+      // Adjust camera for flat view - top-down perspective
+      map.current.easeTo({
+        center: currentCenter,
+        zoom: Math.min(currentZoom * 1.2, 10), // Slightly zoom in for flat
+        pitch: 0, // Top-down view (0 degrees)
+        bearing: 0,
+        duration: 1000
+      })
+    }
+  }, [])
+
   return {
     mapContainer,
     mapLoaded,
@@ -1240,12 +1301,14 @@ export const useMapbox = ({
     flyToLocation,
     isRotating,
     toggleRotation,
+    toggleMapProjection,
     selectedFeature,
     setSelectedFeature,
     map: map.current,
     updateTimelineFilter,
     clearFeatureHighlighting,
     highlightedFeatures,
-    originalGeoJsonData
+    originalGeoJsonData,
+    mouseCoordinates
   }
 }

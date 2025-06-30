@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import Mapbox GL CSS */
+@import 'mapbox-gl/dist/mapbox-gl.css';
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -166,11 +169,11 @@
   backdrop-filter: blur(20px) !important;
   -webkit-backdrop-filter: blur(20px) !important;
   border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  border-radius: 16px !important;
+  border-radius: 12px !important;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4) !important;
   overflow: hidden !important;
   margin: 0 !important;
-  padding: 4px !important;
+  padding: 3px !important;
 }
 
 .mapboxgl-ctrl-zoom-in,
@@ -180,15 +183,15 @@
   backdrop-filter: blur(16px) !important;
   -webkit-backdrop-filter: blur(16px) !important;
   border: none !important;
-  border-radius: 12px !important;
+  border-radius: 8px !important;
   color: white !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  width: 44px !important;
-  height: 44px !important;
+  width: 32px !important;
+  height: 32px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  margin: 2px !important;
+  margin: 1px !important;
   cursor: pointer !important;
 }
 

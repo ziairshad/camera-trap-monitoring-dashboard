@@ -43,5 +43,7 @@ export const AVAILABLE_AI_MODELS = [
 
 export const MAP_THEMES = [
   { id: "dark", name: "Dark", style: "mapbox://styles/mapbox/dark-v11" },
-  { id: "custom", name: "Space42 Blue", style: "mapbox://styles/ziairshad/cmbafekdz00w201pa6r80984v" },
+  { id: "satellite", name: "Satellite", style: "mapbox://styles/mapbox/satellite-v9" },
+  { id: "streets", name: "Streets", style: "mapbox://styles/mapbox/streets-v12" },
+  { id: "custom", name: "GIX Blue", style: "mapbox://styles/ziairshad/cmbafekdz00w201pa6r80984v" },
 ]

@@ -10,7 +10,7 @@ interface TimelineFilterProps {
 }
 
 export default function GlobeTimelineFilter({ onTimeRangeChange, className = "" }: TimelineFilterProps) {
-  const [isMinimized, setIsMinimized] = useState(false)
+  const [isMinimized, setIsMinimized] = useState(true)
   const [selectedStartDate, setSelectedStartDate] = useState<Date>(new Date(2020, 0, 1))
   const [selectedEndDate, setSelectedEndDate] = useState<Date>(new Date(2025, 11, 31))
   const [isDragging, setIsDragging] = useState(false)
@@ -249,18 +249,22 @@ export default function GlobeTimelineFilter({ onTimeRangeChange, className = "" 
   }
 
   return (
-    <div className={`fixed bottom-4 left-1/2 transform -translate-x-1/2 z-30 ${className}`}>
-      <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
+    <div className={`fixed bottom-3 left-1/2 transform -translate-x-1/2 z-30 ${className}`}>
+      <div className={`bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg shadow-xl overflow-hidden transition-all duration-250 ease-out ${
+        isMinimized ? 'w-64' : 'w-auto min-w-96'
+      }`}>
         {/* Compact Header */}
-        <div className="px-4 py-2.5 bg-gradient-to-r from-blue-500/10 to-purple-500/10 border-b border-white/10">
+        <div className={`px-3 py-2 bg-gradient-to-r from-emerald-500/10 to-emerald-400/10 ${
+          isMinimized ? '' : 'border-b border-white/10'
+        }`}>
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="p-1.5 bg-white/10 rounded-lg">
-                <Clock className="w-3.5 h-3.5 text-white" />
+            <div className="flex items-center gap-1.5 min-w-0 flex-1">
+              <div className="p-1 bg-white/10 rounded flex-shrink-0">
+                <Clock className="w-3 h-3 text-white" />
               </div>
-              <div>
-                <h3 className="text-sm font-bold text-white">Timeline Filter</h3>
-                <p className="text-xs text-white/60">
+              <div className="min-w-0 flex-1">
+                <h3 className="text-xs font-bold text-white truncate">Timeline</h3>
+                <p className="text-xs text-white/60 truncate">
                   {formattedStartDate} - {formattedEndDate}
                 </p>
               </div>
@@ -268,10 +272,10 @@ export default function GlobeTimelineFilter({ onTimeRangeChange, className = "" 
             <button
               onClick={toggleMinimized}
               disabled={isAnimating}
-              className="p-1.5 hover:bg-white/10 rounded-lg transition-colors duration-150 disabled:opacity-50"
+              className="p-1 hover:bg-white/10 rounded transition-colors duration-150 disabled:opacity-50 flex-shrink-0 ml-2"
             >
               <div className={`transition-transform duration-250 ease-out ${isMinimized ? 'rotate-180' : 'rotate-0'}`}>
-                <ChevronDown className="w-4 h-4 text-white/80" />
+                <ChevronDown className="w-3.5 h-3.5 text-white/80" />
               </div>
             </button>
           </div>
@@ -283,15 +287,15 @@ export default function GlobeTimelineFilter({ onTimeRangeChange, className = "" 
           className={`transition-all duration-250 ease-out overflow-hidden ${
             isMinimized 
               ? 'max-h-0 opacity-0' 
-              : 'max-h-96 opacity-100'
+              : 'max-h-64 opacity-100'
           }`}
         >
           {/* Content */}
           <div className={`transition-all duration-250 ease-out ${
-            isMinimized ? 'p-0' : 'p-4'
-          } space-y-3`}>
+            isMinimized ? 'p-0' : 'p-3'
+          } space-y-2`}>
             {/* Preset Buttons */}
-            <div className={`flex flex-wrap gap-1.5 transition-opacity duration-200 ${
+            <div className={`flex flex-wrap gap-1 transition-opacity duration-200 ${
               isMinimized ? 'opacity-0' : 'opacity-100'
             }`}>
               {[
@@ -307,16 +311,16 @@ export default function GlobeTimelineFilter({ onTimeRangeChange, className = "" 
                 { key: 'all', label: 'All Time' }
               ].map(({ key, label }) => (
                 key === 'separator' ? (
-                  <div key={key} className="flex items-center px-1">
+                  <div key={key} className="flex items-center px-0.5">
                     <span className="text-white/30 text-xs">|</span>
                   </div>
                 ) : (
                   <button
                     key={key}
                     onClick={() => handlePresetClick(key)}
-                    className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors duration-150 ${
+                    className={`px-2 py-0.5 rounded text-xs font-medium transition-colors duration-150 ${
                       activePreset === key
-                        ? 'bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/30 text-white shadow-lg shadow-blue-500/20'
+                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 shadow-md shadow-emerald-500/10'
                         : 'bg-white/5 border border-white/10 text-white/80 hover:bg-white/10'
                     }`}
                   >
@@ -331,7 +335,7 @@ export default function GlobeTimelineFilter({ onTimeRangeChange, className = "" 
               isMinimized ? 'opacity-0' : 'opacity-100'
             }`}>
               {/* Year Labels */}
-              <div className="flex justify-between mb-1.5">
+              <div className="flex justify-between mb-1">
                 {yearLabels.map(({ year, label }) => (
                   <div key={year} className="text-xs text-white/50 font-mono">
                     {label}
@@ -341,12 +345,12 @@ export default function GlobeTimelineFilter({ onTimeRangeChange, className = "" 
 
               {/* Slider Track */}
               <div
-                className="timeline-slider-track relative h-4 bg-white/10 rounded-full cursor-pointer group"
+                className="timeline-slider-track relative h-3 bg-white/10 rounded-full cursor-pointer group"
                 onClick={handleSliderClick}
               >
                 {/* Selected Range */}
                 <div
-                  className="absolute top-1 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full shadow-lg shadow-blue-500/20"
+                  className="absolute top-0.5 h-2 bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-full shadow-lg shadow-emerald-500/20"
                   style={{
                     left: `${Math.min(startPercentage, endPercentage)}%`,
                     width: `${Math.abs(endPercentage - startPercentage)}%`
@@ -355,24 +359,24 @@ export default function GlobeTimelineFilter({ onTimeRangeChange, className = "" 
 
                 {/* Start Handle */}
                 <div
-                  className={`absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-gradient-to-r from-blue-500 to-cyan-500 border border-white/20 rounded-full cursor-grab shadow-lg transition-transform duration-150 ${
+                  className={`absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-gradient-to-r from-emerald-500 to-emerald-400 border border-white/20 rounded-full cursor-grab shadow-lg transition-transform duration-150 ${
                     isDragging && dragTarget === 'start' ? 'scale-110 cursor-grabbing' : 'hover:scale-110'
                   }`}
                   style={{ 
                     left: `${startPercentage}%`, 
-                    marginLeft: '-8px'
+                    marginLeft: '-6px'
                   }}
                   onMouseDown={(e) => handleMouseDown(e, 'start')}
                 />
 
                 {/* End Handle */}
                 <div
-                  className={`absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-gradient-to-r from-purple-500 to-pink-500 border border-white/20 rounded-full cursor-grab shadow-lg transition-transform duration-150 ${
+                  className={`absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-gradient-to-r from-emerald-500 to-emerald-400 border border-white/20 rounded-full cursor-grab shadow-lg transition-transform duration-150 ${
                     isDragging && dragTarget === 'end' ? 'scale-110 cursor-grabbing' : 'hover:scale-110'
                   }`}
                   style={{ 
                     left: `${endPercentage}%`, 
-                    marginLeft: '-8px'
+                    marginLeft: '-6px'
                   }}
                   onMouseDown={(e) => handleMouseDown(e, 'end')}
                 />
@@ -388,11 +392,11 @@ export default function GlobeTimelineFilter({ onTimeRangeChange, className = "" 
               </div>
 
               {/* Range Info */}
-              <div className="flex justify-between mt-2 text-xs">
-                <div className="text-blue-400 font-medium">
+              <div className="flex justify-between mt-1.5 text-xs">
+                <div className="text-emerald-400 font-medium">
                   {formattedStartDate}
                 </div>
-                <div className="text-purple-400 font-medium">
+                <div className="text-emerald-400 font-medium">
                   {formattedEndDate}
                 </div>
               </div>
@@ -401,9 +405,11 @@ export default function GlobeTimelineFilter({ onTimeRangeChange, className = "" 
         </div>
 
         {/* Footer with Active Indicator */}
-        <div className="px-4 py-2 bg-black/20 border-t border-white/10">
-          <div className="flex items-center justify-between text-xs text-white/60">
-            <span>
+        <div className={`px-3 py-1.5 bg-black/20 transition-all duration-250 ease-out ${
+          isMinimized ? 'border-t border-white/10' : 'border-t border-white/10'
+        }`}>
+          <div className="flex items-center justify-center text-xs text-white/60">
+            <span className="truncate">
               {activePreset === 'all' ? 'All Data' : `${activePreset || 'Custom Range'}`}
             </span>
           </div>

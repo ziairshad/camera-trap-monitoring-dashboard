@@ -1,8 +1,6 @@
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { usePathname } from "next/navigation"
 import { useState, useEffect } from "react"
-import type { MapTheme } from "../types"
 import { useClientOnly } from "@/hooks/useClientOnly"
 import { useAuth } from "./AuthProvider"
 import { LogOut } from "lucide-react"
@@ -10,7 +8,7 @@ import { GlobalSearch } from "./GlobalSearch"
 
 interface SearchResult {
   id: string
-  type: 'Target' | 'Report' | 'RFI' | 'Layer'
+  type: 'Target' | 'Report' | 'RFI' | 'Layer' | 'Place'
   name: string
   coordinates: [number, number]
   properties: any
@@ -18,15 +16,11 @@ interface SearchResult {
 
 interface HeaderProps {
   mapError: string | null
-  currentMapTheme: MapTheme
-  onMapThemeChange: (theme: MapTheme) => void
   geoJsonData?: any
   onSearchResultSelect?: (result: SearchResult) => void
 }
 
-export function Header({ mapError, currentMapTheme, onMapThemeChange, geoJsonData, onSearchResultSelect }: HeaderProps) {
-  const pathname = usePathname()
-  const isGlobeView = pathname === "/globeview"
+export function Header({ mapError, geoJsonData, onSearchResultSelect }: HeaderProps) {
   const [currentTime, setCurrentTime] = useState(new Date())
   const isMounted = useClientOnly()
   const { logout, userEmail } = useAuth()
@@ -63,11 +57,7 @@ export function Header({ mapError, currentMapTheme, onMapThemeChange, geoJsonDat
                   second: '2-digit'
                 }) + ' UTC' : '--:--:-- UTC'}
               </Badge>
-              {mapError && (
-                <Badge variant="outline" className="border-red-400/50 text-red-400 text-xs">
-                  Map Offline
-                </Badge>
-              )}
+
             </div>
             <div className="flex items-center gap-4">
               {/* Global Search */}

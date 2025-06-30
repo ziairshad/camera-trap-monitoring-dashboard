@@ -7,7 +7,7 @@ A modern, AI-powered wildlife monitoring dashboard built for the Environment Age
 ### 🗺️ **Interactive Map Interface**
 
 - Real-time camera locations with live status indicators
-- Multiple map themes (Dark, Space42 Blue)
+- Multiple map themes (Dark, GIX Blue)
 - Smooth camera selection and navigation
 - Animated markers with pulse effects for active cameras
 

@@ -24,24 +24,38 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [userEmail, setUserEmail] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [isMounted, setIsMounted] = useState(false)
   const router = useRouter()
   const pathname = usePathname()
 
+  // Handle mounting to prevent hydration errors
   useEffect(() => {
-    // Check authentication status on mount
-    const authStatus = localStorage.getItem('isAuthenticated')
-    const email = localStorage.getItem('userEmail')
+    setIsMounted(true)
+  }, [])
+
+  useEffect(() => {
+    // Only check localStorage after component is mounted on client
+    if (!isMounted) return
     
-    if (authStatus === 'true' && email) {
-      setIsAuthenticated(true)
-      setUserEmail(email)
-    } else {
+    try {
+      const authStatus = localStorage.getItem('isAuthenticated')
+      const email = localStorage.getItem('userEmail')
+      
+      if (authStatus === 'true' && email) {
+        setIsAuthenticated(true)
+        setUserEmail(email)
+      } else {
+        setIsAuthenticated(false)
+        setUserEmail(null)
+      }
+    } catch (error) {
+      console.warn('Error accessing localStorage:', error)
       setIsAuthenticated(false)
       setUserEmail(null)
     }
     
     setIsLoading(false)
-  }, [])
+  }, [isMounted])
 
   useEffect(() => {
     if (!isLoading) {
@@ -59,15 +73,26 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
   const login = (email: string) => {
     setIsAuthenticated(true)
     setUserEmail(email)
-    localStorage.setItem('isAuthenticated', 'true')
-    localStorage.setItem('userEmail', email)
+    
+    try {
+      localStorage.setItem('isAuthenticated', 'true')
+      localStorage.setItem('userEmail', email)
+    } catch (error) {
+      console.warn('Error saving to localStorage:', error)
+    }
   }
 
   const logout = () => {
     setIsAuthenticated(false)
     setUserEmail(null)
-    localStorage.removeItem('isAuthenticated')
-    localStorage.removeItem('userEmail')
+    
+    try {
+      localStorage.removeItem('isAuthenticated')
+      localStorage.removeItem('userEmail')
+    } catch (error) {
+      console.warn('Error removing from localStorage:', error)
+    }
+    
     router.push('/login')
   }
 

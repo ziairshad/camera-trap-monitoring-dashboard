@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Badge } from './ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Separator } from './ui/separator';
 import { Button } from './ui/button';
-import { Calendar, MapPin, User, Shield, FileText, Target, Layers, Clock, AlertTriangle, SquareArrowOutUpRight } from 'lucide-react';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
+import { Calendar, MapPin, User, Shield, FileText, Target, Layers, Clock, SquareArrowOutUpRight } from 'lucide-react';
 
 interface FeatureCardProps {
   feature: any;
@@ -394,10 +394,10 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ feature, onClose, map }) => {
             <Separator className="bg-white/10" />
             <Button 
               className="w-full bg-amber-600 hover:bg-amber-700 text-white text-sm py-2"
-              onClick={() => console.log('View Target clicked:', properties.id)}
+              onClick={() => console.log('View Workspaces clicked:', properties.id)}
             >
               <span className="flex items-center gap-2">
-                View Target
+                View Workspaces
                 <SquareArrowOutUpRight className="w-4 h-4" />
               </span>
             </Button>
@@ -427,85 +427,92 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ feature, onClose, map }) => {
             {properties.satellite_metadata && (
               <>
                 <Separator className="bg-white/10" />
-                <div className="space-y-1 text-xs">
-                  <div className="text-white/60 font-medium">Metadata:</div>
-                  {properties.satellite_metadata.satellite && (
-                    <div>
-                      <span className="text-white/50">Satellite: </span>
-                      <span className="text-white/80">{properties.satellite_metadata.satellite}</span>
-                    </div>
-                  )}
-                  {properties.satellite_metadata.sensor && (
-                    <div>
-                      <span className="text-white/50">Sensor: </span>
-                      <span className="text-white/80">{properties.satellite_metadata.sensor}</span>
-                    </div>
-                  )}
-                  {(properties.resolution || properties.satellite_metadata.resolution) && (
-                    <div>
-                      <span className="text-white/50">Resolution: </span>
-                      <span className="text-white/80">{properties.resolution || properties.satellite_metadata.resolution}</span>
-                    </div>
-                  )}
-                  {properties.satellite_metadata.cloud_cover && (
-                    <div>
-                      <span className="text-white/50">Cloud Cover: </span>
-                      <span className="text-white/80">{properties.satellite_metadata.cloud_cover}</span>
-                    </div>
-                  )}
-                  {properties.satellite_metadata.processing_level && (
-                    <div>
-                      <span className="text-white/50">Processing: </span>
-                      <span className="text-white/80">{properties.satellite_metadata.processing_level}</span>
-                    </div>
-                  )}
-                  {properties.satellite_metadata.bands && (
-                    <div>
-                      <span className="text-white/50">Bands: </span>
-                      <span className="text-white/80">{properties.satellite_metadata.bands}</span>
-                    </div>
-                  )}
-                  {properties.quality_score && (
-                    <div>
-                      <span className="text-white/50">Quality: </span>
-                      <span className="text-white/80">{properties.quality_score}</span>
-                    </div>
-                  )}
-                  {properties.coverage_area && (
-                    <div>
-                      <span className="text-white/50">Coverage: </span>
-                      <span className="text-white/80">{properties.coverage_area}</span>
-                    </div>
-                  )}
-                  {properties.width && (
-                    <div>
-                      <span className="text-white/50">Dimensions: </span>
-                      <span className="text-white/80">{properties.width} × {properties.height}</span>
-                    </div>
-                  )}
-                  {properties.max_zoom_level && (
-                    <div>
-                      <span className="text-white/50">Max Zoom: </span>
-                      <span className="text-white/80">Level {properties.max_zoom_level}</span>
-                    </div>
-                  )}
-                  {properties.source && (
-                    <div>
-                      <span className="text-white/50">Source: </span>
-                      <span className="text-white/80">{properties.source}</span>
-                    </div>
-                  )}
-                  {properties.owner && (
-                    <div>
-                      <span className="text-white/50">Owner: </span>
-                      <span className="text-white/80">{properties.owner}</span>
-                    </div>
-                  )}
-                </div>
+                <Accordion type="single" collapsible className="w-full">
+                  <AccordionItem value="metadata" className="border-white/10">
+                    <AccordionTrigger className="text-white/60 font-medium text-xs py-2 hover:text-white/80 hover:no-underline">
+                      Metadata
+                    </AccordionTrigger>
+                    <AccordionContent className="pt-0 pb-2">
+                      <div className="space-y-1 text-xs">
+                        {properties.satellite_metadata.satellite && (
+                          <div>
+                            <span className="text-white/50">Satellite: </span>
+                            <span className="text-white/80">{properties.satellite_metadata.satellite}</span>
+                          </div>
+                        )}
+                        {properties.satellite_metadata.sensor && (
+                          <div>
+                            <span className="text-white/50">Sensor: </span>
+                            <span className="text-white/80">{properties.satellite_metadata.sensor}</span>
+                          </div>
+                        )}
+                        {(properties.resolution || properties.satellite_metadata.resolution) && (
+                          <div>
+                            <span className="text-white/50">Resolution: </span>
+                            <span className="text-white/80">{properties.resolution || properties.satellite_metadata.resolution}</span>
+                          </div>
+                        )}
+                        {properties.satellite_metadata.cloud_cover && (
+                          <div>
+                            <span className="text-white/50">Cloud Cover: </span>
+                            <span className="text-white/80">{properties.satellite_metadata.cloud_cover}</span>
+                          </div>
+                        )}
+                        {properties.satellite_metadata.processing_level && (
+                          <div>
+                            <span className="text-white/50">Processing: </span>
+                            <span className="text-white/80">{properties.satellite_metadata.processing_level}</span>
+                          </div>
+                        )}
+                        {properties.satellite_metadata.bands && (
+                          <div>
+                            <span className="text-white/50">Bands: </span>
+                            <span className="text-white/80">{properties.satellite_metadata.bands}</span>
+                          </div>
+                        )}
+                        {properties.quality_score && (
+                          <div>
+                            <span className="text-white/50">Quality: </span>
+                            <span className="text-white/80">{properties.quality_score}</span>
+                          </div>
+                        )}
+                        {properties.coverage_area && (
+                          <div>
+                            <span className="text-white/50">Coverage: </span>
+                            <span className="text-white/80">{properties.coverage_area}</span>
+                          </div>
+                        )}
+                        {properties.width && (
+                          <div>
+                            <span className="text-white/50">Dimensions: </span>
+                            <span className="text-white/80">{properties.width} × {properties.height}</span>
+                          </div>
+                        )}
+                        {properties.max_zoom_level && (
+                          <div>
+                            <span className="text-white/50">Max Zoom: </span>
+                            <span className="text-white/80">Level {properties.max_zoom_level}</span>
+                          </div>
+                        )}
+                        {properties.source && (
+                          <div>
+                            <span className="text-white/50">Source: </span>
+                            <span className="text-white/80">{properties.source}</span>
+                          </div>
+                        )}
+                        {properties.owner && (
+                          <div>
+                            <span className="text-white/50">Owner: </span>
+                            <span className="text-white/80">{properties.owner}</span>
+                          </div>
+                        )}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
               </>
             )}
 
-            <Separator className="bg-white/10" />
             <Button 
               className="w-full bg-slate-600 hover:bg-slate-700 text-white text-sm py-2"
               onClick={() => console.log('View in Exploration clicked:', properties.id)}

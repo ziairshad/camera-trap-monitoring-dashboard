@@ -365,9 +365,9 @@ export function TimelineSliderComponent() {
     if (filteredData.length === 0) return null
 
     // Calculate chart dimensions
-    const width = 720 // Adjusted for better fit
-    const height = 180
-    const padding = { top: 15, right: 20, bottom: 25, left: 30 }
+    const width = 500 // Adjusted for better fit
+    const height = 120
+    const padding = { top: 10, right: 15, bottom: 20, left: 25 }
     const chartWidth = width - padding.left - padding.right
     const chartHeight = height - padding.top - padding.bottom
 
@@ -436,13 +436,13 @@ export function TimelineSliderComponent() {
     const valueTicks = generateValueTicks()
 
     return (
-      <div className="w-full bg-black/30 rounded-lg p-3">
-        <div className="flex justify-between items-center mb-3">
-          <div className="text-sm font-medium text-gray-200">Species Detections Over Time</div>
-          <div className="flex gap-3">
+      <div className="w-full bg-black/30 rounded-lg p-2">
+        <div className="flex justify-between items-center mb-2">
+          <div className="text-xs font-medium text-gray-200">Species Detections</div>
+          <div className="flex gap-2">
             {MAIN_SPECIES.map((species, index) => (
               <div key={index} className="flex items-center gap-1">
-                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: species.color }}></div>
+                <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: species.color }}></div>
                 <span className="text-xs text-gray-300">{species.name}</span>
               </div>
             ))}
@@ -547,9 +547,9 @@ export function TimelineSliderComponent() {
     ]
 
     // Calculate chart dimensions
-    const width = 720
-    const height = 180
-    const padding = { top: 15, right: 20, bottom: 25, left: 30 }
+    const width = 500
+    const height = 120
+    const padding = { top: 10, right: 15, bottom: 20, left: 25 }
     const chartWidth = width - padding.left - padding.right
     const chartHeight = height - padding.top - padding.bottom
 
@@ -627,13 +627,13 @@ export function TimelineSliderComponent() {
     const valueTicks = generateValueTicks()
 
     return (
-      <div className="w-full bg-black/30 rounded-lg p-3">
-        <div className="flex justify-between items-center mb-3">
-          <div className="text-sm font-medium text-gray-200">AI Model Performance</div>
-          <div className="flex gap-3">
+      <div className="w-full bg-black/30 rounded-lg p-2">
+        <div className="flex justify-between items-center mb-2">
+          <div className="text-xs font-medium text-gray-200">AI Model Performance</div>
+          <div className="flex gap-2">
             {aiModels.map((model, index) => (
               <div key={index} className="flex items-center gap-1">
-                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: model.color }}></div>
+                <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: model.color }}></div>
                 <span className="text-xs text-gray-300">{model.name}</span>
               </div>
             ))}
@@ -739,15 +739,15 @@ export function TimelineSliderComponent() {
     const totalDetections = speciesTotal.reduce((sum, species) => sum + species.value, 0)
 
     return (
-      <div className="w-full bg-black/30 rounded-lg p-3">
-        <div className="text-sm font-medium text-gray-200 mb-3">Species Distribution</div>
+      <div className="w-full bg-black/30 rounded-lg p-2">
+        <div className="text-xs font-medium text-gray-200 mb-2">Species Distribution</div>
         <div className="flex items-center justify-between">
-          <div className="space-y-2">
+          <div className="space-y-1">
             {speciesTotal.map((species, index) => {
               const percentage = totalDetections > 0 ? ((species.value / totalDetections) * 100).toFixed(1) : 0
               return (
                 <div key={index} className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: species.color }}></div>
+                  <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: species.color }}></div>
                   <span className="text-xs text-gray-300">{species.name}</span>
                   <span className="text-xs text-emerald-400 font-medium">{percentage}%</span>
                 </div>
@@ -755,8 +755,8 @@ export function TimelineSliderComponent() {
             })}
           </div>
           <div className="text-right">
-            <div className="text-2xl font-bold text-emerald-400">{totalDetections}</div>
-            <div className="text-xs text-gray-400">Total Detections</div>
+            <div className="text-lg font-bold text-emerald-400">{totalDetections}</div>
+            <div className="text-xs text-gray-400">Total</div>
           </div>
         </div>
       </div>
@@ -764,28 +764,28 @@ export function TimelineSliderComponent() {
   }
 
   return (
-    <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50 pointer-events-auto">
+    <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 pointer-events-auto">
       <div
-        className={`bg-black/20 backdrop-blur-md border border-white/10 rounded-xl text-white shadow-lg transition-all duration-500 ease-out timeline-animate ${
-          isMinimized ? "min-w-[200px]" : isWeeklyMode ? "min-w-[800px]" : "min-w-[500px]"
+        className={`bg-black/20 backdrop-blur-md border border-white/10 rounded-lg text-white shadow-lg transition-all duration-500 ease-out timeline-animate ${
+          isMinimized ? "min-w-[180px]" : isWeeklyMode ? "min-w-[600px]" : "min-w-[400px]"
         }`}
       >
         {/* Header - Always Visible */}
-        <div className="flex items-center justify-between p-4">
+        <div className="flex items-center justify-between p-3">
           <div className="flex items-center gap-2">
-            <svg className="h-4 w-4 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
+            <svg className="h-3.5 w-3.5 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
               <path
                 fillRule="evenodd"
                 d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
                 clipRule="evenodd"
               />
             </svg>
-            <span className="text-sm font-medium">Statistics & Timeline</span>
+            <span className="text-xs font-medium">Timeline</span>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             {/* Date display - handle overflow when minimized */}
-            <div className={`text-xs text-emerald-400 font-medium ${isMinimized ? "truncate max-w-[60px]" : ""}`}>
+            <div className={`text-xs text-emerald-400 font-medium ${isMinimized ? "truncate max-w-[50px]" : ""}`}>
               {isWeeklyMode ? (
                 <span>{isMinimized ? "Range" : `${formatDate(weekRange.start)} - ${formatDate(weekRange.end)}`}</span>
               ) : (
@@ -800,9 +800,9 @@ export function TimelineSliderComponent() {
               title={isMinimized ? "Expand Timeline" : "Minimize Timeline"}
             >
               {isMinimized ? (
-                <ChevronUp className="h-4 w-4 text-gray-400" />
+                <ChevronUp className="h-3.5 w-3.5 text-gray-400" />
               ) : (
-                <ChevronDown className="h-4 w-4 text-gray-400" />
+                <ChevronDown className="h-3.5 w-3.5 text-gray-400" />
               )}
             </button>
           </div>
@@ -811,14 +811,14 @@ export function TimelineSliderComponent() {
         {/* Timeline Content - Collapsible */}
         <div
           className={`overflow-hidden transition-all duration-500 ease-out ${
-            isMinimized ? "max-h-0 opacity-0" : "max-h-[600px] opacity-100"
+            isMinimized ? "max-h-0 opacity-0" : "max-h-[400px] opacity-100"
           }`}
         >
-          <div className="px-4 pb-4">
+          <div className="px-3 pb-3">
             {/* Graph Tabs - Only show in weekly mode */}
             {isWeeklyMode && (
-              <div className="mb-4">
-                <div className="flex gap-1 bg-black/20 rounded-lg p-1 mb-4">
+              <div className="mb-3">
+                <div className="flex gap-1 bg-black/20 rounded-lg p-1 mb-3">
                   {[
                     { id: "species", label: "Species" },
                     { id: "models", label: "AI Models" },
@@ -827,7 +827,7 @@ export function TimelineSliderComponent() {
                     <button
                       key={tab.id}
                       onClick={() => setActiveGraphTab(tab.id)}
-                      className={`px-3 py-1.5 text-xs rounded-md transition-all duration-200 ${
+                      className={`px-2 py-1 text-xs rounded-md transition-all duration-200 ${
                         activeGraphTab === tab.id
                           ? "bg-emerald-400/20 text-emerald-400 border border-emerald-400/30"
                           : "text-gray-400 hover:text-gray-200 hover:bg-white/5"
@@ -848,7 +848,7 @@ export function TimelineSliderComponent() {
             )}
 
             {/* Date Labels */}
-            <div className="flex justify-between text-[10px] text-gray-400 mb-2">
+            <div className="flex justify-between text-[9px] text-gray-400 mb-1.5">
               {dateLabels.map((label, index) => (
                 <div key={index} className="text-center">
                   <div className="font-medium">{label.label}</div>
@@ -859,7 +859,7 @@ export function TimelineSliderComponent() {
 
             {/* Slider Track */}
             <div
-              className="timeline-slider-track relative h-2 bg-white/10 rounded-full cursor-pointer"
+              className="timeline-slider-track relative h-1.5 bg-white/10 rounded-full cursor-pointer"
               onClick={handleSliderClick}
             >
               {/* Progress Fill */}
@@ -883,14 +883,14 @@ export function TimelineSliderComponent() {
                 <>
                   {/* Start Handle */}
                   <div
-                    className="absolute top-1/2 transform -translate-y-1/2 -translate-x-1/2 w-4 h-4 bg-emerald-400 border-2 border-white rounded-full shadow-lg cursor-grab hover:scale-110 transition-all duration-150"
+                    className="absolute top-1/2 transform -translate-y-1/2 -translate-x-1/2 w-3 h-3 bg-emerald-400 border border-white rounded-full shadow-md cursor-grab hover:scale-110 transition-all duration-150"
                     style={{ left: `${weekStartPosition}%` }}
                     onMouseDown={(e) => handleMouseDown(e, "start")}
                   />
 
                   {/* End Handle */}
                   <div
-                    className="absolute top-1/2 transform -translate-y-1/2 -translate-x-1/2 w-4 h-4 bg-emerald-400 border-2 border-white rounded-full shadow-lg cursor-grab hover:scale-110 transition-all duration-150"
+                    className="absolute top-1/2 transform -translate-y-1/2 -translate-x-1/2 w-3 h-3 bg-emerald-400 border border-white rounded-full shadow-md cursor-grab hover:scale-110 transition-all duration-150"
                     style={{ left: `${weekEndPosition}%` }}
                     onMouseDown={(e) => handleMouseDown(e, "end")}
                   />
@@ -898,7 +898,7 @@ export function TimelineSliderComponent() {
               ) : (
                 /* Single Handle */
                 <div
-                  className="absolute top-1/2 transform -translate-y-1/2 -translate-x-1/2 w-4 h-4 bg-emerald-400 border-2 border-white rounded-full shadow-lg cursor-grab hover:scale-110 transition-all duration-150"
+                  className="absolute top-1/2 transform -translate-y-1/2 -translate-x-1/2 w-3 h-3 bg-emerald-400 border border-white rounded-full shadow-md cursor-grab hover:scale-110 transition-all duration-150"
                   style={{ left: `${selectedPosition}%` }}
                   onMouseDown={(e) => handleMouseDown(e, "single")}
                 />
@@ -923,7 +923,7 @@ export function TimelineSliderComponent() {
             </div>
 
             {/* Preset Buttons */}
-            <div className="flex justify-center gap-2 mt-3">
+            <div className="flex justify-center gap-1.5 mt-2">
               {[
                 { label: "Month", value: "month" },
                 { label: "Week", value: "week" },
@@ -933,7 +933,7 @@ export function TimelineSliderComponent() {
                 <button
                   key={button.value}
                   onClick={() => handlePresetClick(button.value)}
-                  className={`px-3 py-1 text-xs rounded-full transition-all duration-200 ${
+                  className={`px-2.5 py-0.5 text-xs rounded-full transition-all duration-200 ${
                     activeChip === button.value
                       ? "bg-emerald-400/30 text-emerald-400 border border-emerald-400/50"
                       : "bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white"
